@@ -152,6 +152,10 @@ function test(input, expectedOutput) {
 
 caclulateFrameScores(['1', '2','3'])
 
+/*
+TEST CASES BELOW. FEEL FREE TO COMMENT OUT
+*/
+
 // Empty list shouldn't blow up
 test([],[])
 // One number should return an array with one null entry
