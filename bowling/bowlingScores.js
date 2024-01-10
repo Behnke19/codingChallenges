@@ -9,7 +9,6 @@ const scoreErrorMsg = 'Encountered a frame with too big of a score'
 // is the score for a frame. Note that this is not the cummulative score of the frames
 function caclulateFrameScores(rolls) {
     let scoresByFrame = []
-    let currentFrameScore = 0
     let roll = 0
     
     // loop until we are either out of roles or we have scored 10 frames. 
@@ -18,11 +17,11 @@ function caclulateFrameScores(rolls) {
     // The time complexity would be O(N) where N is the number of rolls 
     while (roll < rolls.length && scoresByFrame.length < 10) {
         // The idea is that every time we are at the top of the loop we are at the start of a frame to be calculated
+        let currentFrameScore = 0
         if ('X' == rolls[roll]) {
             // Strike logic...          
             // save score and advance to the next frame. 
             scoresByFrame.push(calculateStrikeScore(roll, rolls))
-            currentFrameScore = 0
             roll++
         } 
         else {
@@ -37,10 +36,10 @@ function caclulateFrameScores(rolls) {
                 roll++
                 continue
             }
-            currentFrameScore += parseInt(rolls[roll])
+            currentFrameScore = parseInt(rolls[roll])
             let nextRoll = rolls[roll + 1]
             if (nextRoll == '/') {
-                // spare logic
+                // spare logic...
                 currentFrameScore = calculateSpareScore(roll + 1, rolls)
             } else if (nextRoll == 'X') { // the second roll of a frame cant be a strike
                 throw new Error(strikeErrorMsg)
@@ -53,7 +52,6 @@ function caclulateFrameScores(rolls) {
                 }
             }
             scoresByFrame.push(currentFrameScore)
-            currentFrameScore = 0
             roll += 2 // we already added the next roll so move the pointer ahead to the start of the next frame
         }
     }
@@ -159,6 +157,8 @@ test(['2', '3', '6', '/'], [5, null])
 test(['1', '/', '5', '3'], [15, 8])
 // spare followed by a strixe gets 20
 test(['1', '/', 'X'], [20, null])
+// final frame spare works
+test(['X', '1', '1', '1', '1', '1', '/', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '/', '1'], [12, 2, 2, 11, 2, 2, 2, 2, 2, 11])
 // invalid spare to start gives error
 test(['/'], spareErrorMsg)
 // invalid strike gives error
@@ -169,3 +169,9 @@ test(['9', '9'], scoreErrorMsg)
 test(['3', '/', '/'], spareErrorMsg)
 // spare over 20 is invalid
 test(['3', '/', '11'], scoreErrorMsg)
+// XX/ is invalid
+test (['X', 'X', '/'], spareErrorMsg)
+// X*X is invalid
+test (['X', '9', 'X'], strikeErrorMsg)
+// strike cant be over 30
+test (['X', 'X', '11'], scoreErrorMsg)
