@@ -31,7 +31,9 @@ function caclulateFrameScores(rolls) {
     // loop until we are either out of roles or we have scored 10 frames. 
     // This will iterate over the rolls one time. In the case of a strike or spare some elements are read more than once
     // but the worst case is all strikes which is roughly 3 * number of rolls reads from the array.
-    // The time complexity would be O(N) where N is the number of rolls 
+    // The time complexity would be O(N) where N is the number of rolls but it also stops after 10 frames worth of data 
+    // has been processed so if N was large there could actually be less than N reads from the list. This means its 
+    // actually more of a constant time function where the worst case is ~30 reads.(All strikes)
     while (roll < rolls.length && scoresByFrame.length < 10) {
         // The idea is that every time we are at the top of the loop we are at the start of a frame to be calculated
         let currentFrameScore = 0
