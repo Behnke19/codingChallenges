@@ -152,8 +152,6 @@ function test(input, expectedOutput) {
     console.log(`---------------`)
 }
 
-caclulateFrameScores(['1', '2','3'])
-
 /*
 TEST CASES BELOW. FEEL FREE TO COMMENT OUT
 */
