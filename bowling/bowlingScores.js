@@ -26,6 +26,9 @@ const scoreErrorMsg = 'Encountered a frame with too big of a score'
 // is the score for a frame. Note that this is not the cummulative score of the frames
 function caclulateFrameScores(rolls) {
     let scoresByFrame = []
+    if (!rolls) {
+        return scoresByFrame
+    }
     let roll = 0
     
     // loop until we are either out of roles or we have scored 10 frames. 
@@ -158,6 +161,10 @@ TEST CASES BELOW. FEEL FREE TO COMMENT OUT
 
 // Empty list shouldn't blow up
 test([],[])
+// Null param shouldn't blow up
+test(null, [])
+// Undefined shouldn't blow up
+test(undefined, [])
 // One number should return an array with one null entry
 test(['1'], [null])
 // Two numbers should return an array with 1 entry that is the sum of the two numbers
